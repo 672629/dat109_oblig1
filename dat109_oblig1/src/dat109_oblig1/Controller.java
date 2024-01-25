@@ -1,6 +1,7 @@
 package dat109_oblig1;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Controller {
 	
@@ -11,57 +12,61 @@ public class Controller {
 	}
 	
 	public void start(Brett brett, Terning terning, List<Spiller> spillere) {
-		int teller = 0;
+		int spillerTeller = 0;
 		
 		while (true) {
-			spillerUI.nySpillerTur(spillere.get(teller).getName());
-			spillerUI.printBrett(spillere.get(teller).getPos() + 1, spillere.get(teller).getName());
+			spillerUI.nySpillerTur(spillere.get(spillerTeller).getName());
+			spillerUI.printBrett(spillere.get(spillerTeller).getPos() + 1, spillere.get(spillerTeller).getName());
 			do {
-				if(spillere.get(teller).getTeller() > 0) {
+				if(spillere.get(spillerTeller).getTellerSeks() > 0) {
 					spillerUI.skrivFikkSeks();
 				}
 				
+				//button();
 				int terningVerdi = terning.trill();
 				spillerUI.terningVerdi(terningVerdi);
 				
-				if(spillere.get(teller).getTripleSix()) {
-					spillerUI.fangetMelding();
+				if(spillere.get(spillerTeller).getTripleSix()) {
 					if(terningVerdi != 6) {
-						spillerUI.fortsattFanget(terningVerdi);
 						break;
 					}
-					else {
-						spillerUI.ikkeFanget();
-					}
 				}
 				
-				int pos = spillere.get(teller).spillTur(terningVerdi);
+				int pos = spillere.get(spillerTeller).spillTur(terningVerdi, spillerUI);
 				
-				if(spillere.get(teller).getTripleSix()) {
-					spillerUI.trippelSeks();
+				
+				spillerUI.printBrett(spillere.get(spillerTeller).getPos() + 1, spillere.get(spillerTeller).getName());
+				
+				if(spillere.get(spillerTeller).getHarVunnet()) {
+					break;
 				}
 				
-				spillerUI.printBrett(spillere.get(teller).getPos() + 1, spillere.get(teller).getName());
-				spillerUI.effekt(brett.getEffekt(pos));
-				spillere.get(teller).updatePos(brett.ruteEffekt(pos));
-				spillerUI.printBrett(spillere.get(teller).getPos() + 1, spillere.get(teller).getName());
-			} while (spillere.get(teller).getTeller() > 0 && spillere.get(teller).getTeller() < 3);
+				spillere.get(spillerTeller).updatePos(brett.ruteEffekt(pos));
+				spillerUI.effekt(brett.getEffekt(pos), spillere.get(spillerTeller).getPos() + 1, spillere.get(spillerTeller).getName());
+				
+			} while (spillere.get(spillerTeller).getTellerSeks() > 0 && spillere.get(spillerTeller).getTellerSeks() < 3);
 			
-			if(spillere.get(teller).getHarVunnet()) {
-				avsluttSpill(spillere.get(teller).getName());
+			if(spillere.get(spillerTeller).getHarVunnet()) {
+				spillerUI.vunnet(spillere.get(spillerTeller).getName());
 				break;
 			}
 			
-			teller++;
-			if(teller >= spillere.size() - 1) {
-				teller = 0;
+			spillerTeller++;
+			if(spillerTeller >= spillere.size()) {
+				spillerTeller = 0;
 			}
+			
 		}
 
 	}
 	
-	
-	private void avsluttSpill(String navn) {
-		spillerUI.vunnet(navn);
+	private void button() {
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
 }

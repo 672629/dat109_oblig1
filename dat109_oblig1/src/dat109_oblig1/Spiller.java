@@ -3,7 +3,7 @@ package dat109_oblig1;
 public class Spiller {
 	
 	public String name;
-	private int teller;
+	private int tellerSeks;
 	private Brikke brikke;
 	private boolean tripleSix;
 	private boolean harVunnet;
@@ -15,14 +15,15 @@ public class Spiller {
 		this.harVunnet = false;
 	}
 	
-	int spillTur(int terning) {
+	public int spillTur(int terning, SpillerUI spillerUI) {
 		int sumPos = brikke.getPosisjon() + terning;
 		
 		if(tripleSix == true) {
 			if(terning != 6) {
-				//Break her
+				return getPos();
 			}
 			else {
+				spillerUI.ikkeFanget();
 				tripleSix = false;
 			}
 		}
@@ -31,26 +32,28 @@ public class Spiller {
 			resetTeller();
 			}
 		else {
-			teller++;
-			if(teller == 3) {
+			tellerSeks++;
+			if(tellerSeks == 3) {
 				brikke.setPosisjon(0);
 				tripleSix = true;
+				spillerUI.trippelSeks();
+				spillerUI.fangetMelding();
 				resetTeller();
-				//Husk å breake funskjonen her
+				return getPos();
 			}
 		}
 		
 		if(brikke.getPosisjon() >= 93) {
 			if(sumPos > 99) {
-				//Husk å breake metoden her
+				spillerUI.overHundre(getPos() + 1);
+				return getPos();
 			}
 		}
 		
 		if(sumPos == 99) {
 			brikke.setPosisjon(sumPos);
 			this.harVunnet = true;
-			//Skriv ut at spilleren har vunnet
-			// Husk å breake metoden og avslutt spillet
+			return sumPos;
 		}
 		
 		brikke.setPosisjon(sumPos);
@@ -58,11 +61,11 @@ public class Spiller {
 	}
 	
 	private void resetTeller() {
-		this.teller = 0;
+		this.tellerSeks = 0;
 	}
 	
-	public int getTeller() {
-		return teller;
+	public int getTellerSeks() {
+		return tellerSeks;
 	}
 	
 	public String getName() {

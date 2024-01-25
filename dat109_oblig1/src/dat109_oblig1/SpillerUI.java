@@ -15,9 +15,6 @@ public class SpillerUI {
 		printer("Du må rulle en seks for å kunne flytte deg");
 	}
 	
-	public void fortsattFanget(int terning) {
-		printer("Du fikk: " + terning + " du må ha 6 for å kunne flytte deg");
-	}
 	
 	public void ikkeFanget() {
 		printer("Du rullet en 6 og kan nå flytte deg");
@@ -63,9 +60,10 @@ public class SpillerUI {
 			}
 		}
 		printer("Spiller: " + navn + " er nå på rute: " + spillerpos);
+		System.out.println();
 	}
 	
 	public void printer(String melding) {
-		System.out.println(melding);
+		System.out.println(melding + "\n");
 	}
 }
