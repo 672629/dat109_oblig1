@@ -23,12 +23,16 @@ public class SpillerUI {
 		printer("Du rullet en 6 og kan nå flytte deg");
 	}
 	
-	public void effekt(int effekt) {
+	public void effekt(int effekt, int pos, String navn) {
 		if(effekt > 0 ) {
 			printer("Du har landet på en stige og går opp " + effekt);
+			printBrett(pos, navn);
 		}else if(effekt < 0) {
 			printer("Du har landet på en slange og går ned " + effekt);
+			printBrett(pos,navn);
 		}
+		
+		
 	}
 	
 	public void overHundre(int pos) {
