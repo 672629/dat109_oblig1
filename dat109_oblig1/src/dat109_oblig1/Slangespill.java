@@ -32,19 +32,6 @@ public class Slangespill {
 		return brukerInput;
 	}
 
-	public void ruteEffekt(int pos) {
-
-		int effekt = brett.sjekkPosisjon(pos);
-
-		if (effekt < 0) {
-			// print slangeEffekt
-		}
-		if (effekt > 0) {
-			// print stigeEffekt
-		}
-		pos = pos + effekt;
-		// send pos tilbake kan også sjekke
-	}
 
 	public void start() {
 
