@@ -25,5 +25,9 @@ public class Brett {
 		pos = pos + effekt;
 		return pos;
 	}
+	
+	public int getEffekt(int pos) {
+		return ruter.get(pos).getEffekt();
+	}
 
 }

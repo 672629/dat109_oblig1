@@ -7,9 +7,10 @@ public class Slangespill {
 	private Brett brett;
 	private List<Spiller> spillere;
 	private Terning terning;
-	private antallSpillere;
+	private int antallSpillere;
+	private Controller controller;
 	
-	public SlangeSpill() {
+	public Slangespill() {
 		brett = new Brett();
 		terning = new Terning();
 		antallSpillere = skrivSpillere();
@@ -17,7 +18,7 @@ public class Slangespill {
 		for(int i = 0; i < antallSpillere; i++) {
 			spillere.add(new Spiller(spillernavn[i]));
 		}
-		start();
+		controller.start(brett, terning, spillere);
 	}
 
 	public int skrivSpillere() {
@@ -34,12 +35,19 @@ public class Slangespill {
 
 
 	public void start() {
-
+		int teller = 0;
+		while(!spillere[teller].getharvunnet()) {
+		}
 		do {
 			int terningVerdi = terning.trill();
 			int pos = spiller.spillTur(terningVerdi);
 			spiller.updatePos(brett.ruteEffekt(pos));
 		} while (spiller.getTeller() > 0 && spiller.getTeller() < 3);
+		
+		teller++;
+		if(teller = spillere.size()) {
+			teller = 0;
+		}
 
 	}
 	
@@ -52,7 +60,7 @@ public class Slangespill {
 			System.out.print("Skriv inn spillernavn: ");
 			brukerInput = scanner.nextLine();
 			scanner.close();
-			alleSpillerNavn[i] = brukerInput;
+			alleSpillerNavn[teller] = brukerInput;
 			teller++;
 		}
 		return alleSpillerNavn;
