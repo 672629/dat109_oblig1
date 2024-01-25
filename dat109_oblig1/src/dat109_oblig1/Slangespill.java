@@ -33,27 +33,10 @@ public class Slangespill {
 		return brukerInput;
 	}
 
-
-	public void start() {
-		int teller = 0;
-		while(!spillere[teller].getharvunnet()) {
-		}
-		do {
-			int terningVerdi = terning.trill();
-			int pos = spiller.spillTur(terningVerdi);
-			spiller.updatePos(brett.ruteEffekt(pos));
-		} while (spiller.getTeller() > 0 && spiller.getTeller() < 3);
-		
-		teller++;
-		if(teller = spillere.size()) {
-			teller = 0;
-		}
-
-	}
 	
 	private String[] getSpillerNames() {
 		String brukerInput = "No name";
-		String[] alleSpillerNavn;
+		String[] alleSpillerNavn = new String[antallSpillere];
 		int teller = 0;
 		while (this.antallSpillere > teller) {
 			Scanner scanner = new Scanner(System.in);

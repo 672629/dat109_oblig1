@@ -4,11 +4,11 @@ public class Brikke {
 	
 	private int posisjon;
 	
-	int getPosisjon() {
+	public int getPosisjon() {
 		return posisjon;
 	}
 	
-	void setPosisjon(int pos) {
+	public void setPosisjon(int pos) {
 		this.posisjon = pos;
 	}
 }
