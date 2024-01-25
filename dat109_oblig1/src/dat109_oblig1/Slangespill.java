@@ -7,15 +7,15 @@ public class Slangespill {
 	private Brett brett;
 	private List<Spiller> spillere;
 	private Terning terning;
-
 	private antallSpillere;
 	
 	public SlangeSpill() {
 		brett = new Brett();
 		terning = new Terning();
 		antallSpillere = skrivSpillere();
+		String[] spillernavn = getSpillerNames();
 		for(int i = 0; i < antallSpillere; i++) {
-			spillere.add(new Spiller(i));
+			spillere.add(new Spiller(spillernavn[i]));
 		}
 		start();
 	}
@@ -33,36 +33,41 @@ public class Slangespill {
 	}
 
 	public void ruteEffekt(int pos) {
-			
-			int effekt = brett.sjekkPosisjon(pos);
 
-			if (effekt < 0) {
-				// print slangeEffekt
-			}
-			if (effekt > 0) {
-				// print stigeEffekt
-			}
-			pos = pos + effekt;
+		int effekt = brett.sjekkPosisjon(pos);
+
+		if (effekt < 0) {
+			// print slangeEffekt
+		}
+		if (effekt > 0) {
+			// print stigeEffekt
+		}
+		pos = pos + effekt;
 		// send pos tilbake kan også sjekke
 	}
-	
+
 	public void start() {
-		
-		terningVerdi = terning.trill();
-		if(terningVerdi != 6) {
+
+		do {
+			int terningVerdi = terning.trill();
 			int pos = spiller.spillTur(terningVerdi);
-			ruteEffekt(pos);
-		}else {
-			while(terningVerdi == 6) {
-				int pos = spiller.spillTur(terningVerdi);
-				if(pos == 0) {
-					break;
-				}
-				ruteEffekt(pos);
-				terningVerdi = terning.trill();
-			}
-		}
+			spiller.updatePos(brett.ruteEffekt(pos));
+		} while (spiller.getTeller() > 0 && spiller.getTeller() < 3);
+
 	}
 	
-	
+	private String[] getSpillerNames() {
+		String brukerInput = "No name";
+		String[] alleSpillerNavn;
+		int teller = 0;
+		while (this.antallSpillere > teller) {
+			Scanner scanner = new Scanner(System.in);
+			System.out.print("Skriv inn spillernavn: ");
+			brukerInput = scanner.nextLine();
+			scanner.close();
+			alleSpillerNavn[i] = brukerInput;
+			teller++;
+		}
+		return alleSpillerNavn;
+	}
 }
