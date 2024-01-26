@@ -24,14 +24,20 @@ public class Controller {
 				// button();
 				int terningVerdi = terning.trill();
 				spillerUI.terningVerdi(terningVerdi);
+				
+				printHvisTrippelSeks(spiller);
 
-				if (erFanget(spiller, terningVerdi)) {
+				if (erFanget(spiller, terningVerdi) || erOverHundre(spiller, terningVerdi)) {
 					break;
 				}
+				
+				spillerSluppetFri(spiller, terningVerdi);
 
 				int pos = spiller.spillTur(terningVerdi, spillerUI);
 
 				printBrettFraUI(spiller);
+				
+				
 
 				if (spiller.getHarVunnet()) {
 					break;
@@ -39,8 +45,7 @@ public class Controller {
 
 				oppdaterPosOgPrintHvisEffekt(spiller, brett, pos);
 
-			} while (spiller.getTellerSeks() > 0
-					&& spiller.getTellerSeks() < 3);
+			} while (spiller.getTellerSeks() > 0 && spiller.getTellerSeks() < 3);
 
 			if (spiller.getHarVunnet()) {
 				spillerUI.vunnet(spiller.getName());
@@ -69,12 +74,11 @@ public class Controller {
 		spillerUI.nySpillerTur(spiller.getName());
 		printBrettFraUI(spiller);
 	}
-	
+
 	private void printBrettFraUI(Spiller spiller) {
 		spillerUI.printBrett(spiller.getPos() + 1, spiller.getName());
-		
+
 	}
-	
 
 	private void harFattSeks(Spiller spiller) {
 		if (spiller.getTellerSeks() > 0) {
@@ -90,21 +94,35 @@ public class Controller {
 		}
 		return false;
 	}
-	
+
 	private void oppdaterPosOgPrintHvisEffekt(Spiller spiller, Brett brett, int pos) {
 		spiller.updatePos(brett.ruteEffekt(pos));
-		spillerUI.effekt(brett.getEffekt(pos), spiller.getPos() + 1,
-				spiller.getName());
+		spillerUI.effekt(brett.getEffekt(pos), spiller.getPos() + 1, spiller.getName());
+	}
+
+	private void spillerSluppetFri(Spiller spiller, int terningVerdi) {
+		if (spiller.getTripleSix() && terningVerdi == 6) {
+			spillerUI.ikkeFanget();
+		}
+	}
+
+	private void printHvisTrippelSeks(Spiller spiller) {
+		if (spiller.getTripleSix()) {
+			spillerUI.trippelSeks();
+			spillerUI.fangetMelding();
+		}
 	}
 	
-	/*potensiell UI fiks for å få UI bare i controller kan gjøre liknende -
-	 * metoder for de andre som bruker UI
-	 * 
-	 * private void spillerSluppetFri(Spiller spiller, int terningVerdi){
-	 * 		if(spiller.getTripleSix() && terningVerdi == 6){
-	 * 			spillerUi.ikkeFanget();
-	 * 		}
-	 * }
-	 */
+	private boolean erOverHundre(Spiller spiller, int terningVerdi) {
+		int spillerpos = spiller.getPos();
+		int total = spillerpos + terningVerdi;
+		if(spillerpos >= 93) {
+			if(total > 99) {
+				spillerUI.overHundre(spiller.getPos() + 1);
+				return true;
+			}
+		}
+		return false;
+	}
 
 }

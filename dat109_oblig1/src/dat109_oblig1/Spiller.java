@@ -23,7 +23,7 @@ public class Spiller {
 				return getPos();
 			}
 			else {
-				spillerUI.ikkeFanget();
+				//spillerUI.ikkeFanget();
 				tripleSix = false;
 			}
 		}
@@ -36,8 +36,8 @@ public class Spiller {
 			if(tellerSeks == 3) {
 				brikke.setPosisjon(0);
 				tripleSix = true;
-				spillerUI.trippelSeks();
-				spillerUI.fangetMelding();
+				/*spillerUI.trippelSeks();
+				spillerUI.fangetMelding();*/
 				resetTeller();
 				return getPos();
 			}
