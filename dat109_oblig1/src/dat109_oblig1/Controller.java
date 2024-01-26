@@ -25,15 +25,19 @@ public class Controller {
 				int terningVerdi = terning.trill();
 				spillerUI.terningVerdi(terningVerdi);
 				
-				printHvisTrippelSeks(spiller);
 
-				if (erFanget(spiller, terningVerdi) || erOverHundre(spiller, terningVerdi)) {
+				if (erFanget(spiller, terningVerdi)) {
 					break;
 				}
 				
-				spillerSluppetFri(spiller, terningVerdi);
+				if(erOverHundre(spiller, terningVerdi)) {
+					break;
+				}
+				
 
 				int pos = spiller.spillTur(terningVerdi, spillerUI);
+				
+				printHvisTrippelSeks(spiller);
 
 				printBrettFraUI(spiller);
 				
@@ -89,8 +93,10 @@ public class Controller {
 	private boolean erFanget(Spiller spiller, int terningVerdi) {
 		if (spiller.getTripleSix()) {
 			if (terningVerdi != 6) {
+				spillerUI.fangetMelding();
 				return true;
 			}
+			spillerUI.ikkeFanget();
 		}
 		return false;
 	}
@@ -100,11 +106,6 @@ public class Controller {
 		spillerUI.effekt(brett.getEffekt(pos), spiller.getPos() + 1, spiller.getName());
 	}
 
-	private void spillerSluppetFri(Spiller spiller, int terningVerdi) {
-		if (spiller.getTripleSix() && terningVerdi == 6) {
-			spillerUI.ikkeFanget();
-		}
-	}
 
 	private void printHvisTrippelSeks(Spiller spiller) {
 		if (spiller.getTripleSix()) {
