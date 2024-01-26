@@ -15,7 +15,7 @@ public class Spiller {
 		this.harVunnet = false;
 	}
 	
-	public int spillTur(int terning, SpillerUI spillerUI) {
+	public int spillTur(int terning) {
 		int sumPos = brikke.getPosisjon() + terning;
 		
 		if(tripleSix == true) {
@@ -23,7 +23,6 @@ public class Spiller {
 				return getPos();
 			}
 			else {
-				//spillerUI.ikkeFanget();
 				tripleSix = false;
 			}
 		}
@@ -36,8 +35,6 @@ public class Spiller {
 			if(tellerSeks == 3) {
 				brikke.setPosisjon(0);
 				tripleSix = true;
-				/*spillerUI.trippelSeks();
-				spillerUI.fangetMelding();*/
 				resetTeller();
 				return getPos();
 			}
@@ -45,15 +42,8 @@ public class Spiller {
 		
 		if(brikke.getPosisjon() >= 93) {
 			if(sumPos > 99) {
-				spillerUI.overHundre(getPos() + 1);
 				return getPos();
 			}
-		}
-		
-		if(sumPos == 99) {
-			brikke.setPosisjon(sumPos);
-			this.harVunnet = true;
-			return sumPos;
 		}
 		
 		brikke.setPosisjon(sumPos);
@@ -86,5 +76,9 @@ public class Spiller {
 	
 	public boolean getHarVunnet() {
 		return this.harVunnet;
+	}
+	
+	public void setHarVunnet() {
+		this.harVunnet  = true;
 	}
 }

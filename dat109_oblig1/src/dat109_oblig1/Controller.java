@@ -26,28 +26,21 @@ public class Controller {
 				spillerUI.terningVerdi(terningVerdi);
 				
 
-				if (erFanget(spiller, terningVerdi)) {
+				if (erFanget(spiller, terningVerdi) || erOverHundre(spiller, terningVerdi)) {
 					break;
 				}
-				
-				if(erOverHundre(spiller, terningVerdi)) {
-					break;
-				}
-				
 
-				int pos = spiller.spillTur(terningVerdi, spillerUI);
+				int pos = spiller.spillTur(terningVerdi);
 				
 				printHvisTrippelSeks(spiller);
 
 				printBrettFraUI(spiller);
-				
-				
-
-				if (spiller.getHarVunnet()) {
-					break;
-				}
 
 				oppdaterPosOgPrintHvisEffekt(spiller, brett, pos);
+				
+				if(sjekkOgSettVunnet(spiller)) {
+					break;
+				}
 
 			} while (spiller.getTellerSeks() > 0 && spiller.getTellerSeks() < 3);
 
@@ -119,11 +112,18 @@ public class Controller {
 		int total = spillerpos + terningVerdi;
 		if(spillerpos >= 93) {
 			if(total > 99) {
-				spillerUI.overHundre(spiller.getPos() + 1);
+				spillerUI.overHundre(spillerpos + 1);
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	private boolean sjekkOgSettVunnet(Spiller spiller) {
+		if(spiller.getPos() == 99) {
+			spiller.setHarVunnet();
+		}
+		return spiller.getHarVunnet();
 	}
 
 }
