@@ -4,62 +4,58 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Controller {
-	
+
 	private SpillerUI spillerUI;
-	
+
 	public Controller() {
 		this.spillerUI = new SpillerUI();
 	}
-	
+
 	public void start(Brett brett, Terning terning, List<Spiller> spillere) {
 		int spillerTeller = 0;
-		
+		Spiller spiller = spillere.get(spillerTeller);
+
 		while (true) {
-			spillerUI.nySpillerTur(spillere.get(spillerTeller).getName());
-			spillerUI.printBrett(spillere.get(spillerTeller).getPos() + 1, spillere.get(spillerTeller).getName());
+			spiller = spillere.get(spillerTeller);
+			printAtNySpiller(spiller);
 			do {
-				if(spillere.get(spillerTeller).getTellerSeks() > 0) {
-					spillerUI.skrivFikkSeks();
-				}
-				
-				//button();
+				harFattSeks(spiller);
+
+				// button();
 				int terningVerdi = terning.trill();
 				spillerUI.terningVerdi(terningVerdi);
-				
-				if(spillere.get(spillerTeller).getTripleSix()) {
-					if(terningVerdi != 6) {
-						break;
-					}
-				}
-				
-				int pos = spillere.get(spillerTeller).spillTur(terningVerdi, spillerUI);
-				
-				
-				spillerUI.printBrett(spillere.get(spillerTeller).getPos() + 1, spillere.get(spillerTeller).getName());
-				
-				if(spillere.get(spillerTeller).getHarVunnet()) {
+
+				if (erFanget(spiller, terningVerdi)) {
 					break;
 				}
-				
-				spillere.get(spillerTeller).updatePos(brett.ruteEffekt(pos));
-				spillerUI.effekt(brett.getEffekt(pos), spillere.get(spillerTeller).getPos() + 1, spillere.get(spillerTeller).getName());
-				
-			} while (spillere.get(spillerTeller).getTellerSeks() > 0 && spillere.get(spillerTeller).getTellerSeks() < 3);
-			
-			if(spillere.get(spillerTeller).getHarVunnet()) {
-				spillerUI.vunnet(spillere.get(spillerTeller).getName());
+
+				int pos = spiller.spillTur(terningVerdi, spillerUI);
+
+				printBrettFraUI(spiller);
+
+				if (spiller.getHarVunnet()) {
+					break;
+				}
+
+				oppdaterPosOgPrintHvisEffekt(spiller, brett, pos);
+
+			} while (spiller.getTellerSeks() > 0
+					&& spiller.getTellerSeks() < 3);
+
+			if (spiller.getHarVunnet()) {
+				spillerUI.vunnet(spiller.getName());
 				break;
 			}
-			
+
 			spillerTeller++;
-			if(spillerTeller >= spillere.size()) {
+			if (spillerTeller >= spillere.size()) {
 				spillerTeller = 0;
 			}
-			
+
 		}
 
 	}
-	
+
 	private void button() {
 		try {
 			Thread.sleep(2000);
@@ -68,5 +64,47 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
+
+	private void printAtNySpiller(Spiller spiller) {
+		spillerUI.nySpillerTur(spiller.getName());
+		printBrettFraUI(spiller);
+	}
 	
+	private void printBrettFraUI(Spiller spiller) {
+		spillerUI.printBrett(spiller.getPos() + 1, spiller.getName());
+		
+	}
+	
+
+	private void harFattSeks(Spiller spiller) {
+		if (spiller.getTellerSeks() > 0) {
+			spillerUI.skrivFikkSeks();
+		}
+	}
+
+	private boolean erFanget(Spiller spiller, int terningVerdi) {
+		if (spiller.getTripleSix()) {
+			if (terningVerdi != 6) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	private void oppdaterPosOgPrintHvisEffekt(Spiller spiller, Brett brett, int pos) {
+		spiller.updatePos(brett.ruteEffekt(pos));
+		spillerUI.effekt(brett.getEffekt(pos), spiller.getPos() + 1,
+				spiller.getName());
+	}
+	
+	/*potensiell UI fiks for å få UI bare i controller kan gjøre liknende -
+	 * metoder for de andre som bruker UI
+	 * 
+	 * private void spillerSluppetFri(Spiller spiller, int terningVerdi){
+	 * 		if(spiller.getTripleSix() && terningVerdi == 6){
+	 * 			spillerUi.ikkeFanget();
+	 * 		}
+	 * }
+	 */
+
 }
