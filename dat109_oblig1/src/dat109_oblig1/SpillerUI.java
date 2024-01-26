@@ -22,10 +22,10 @@ public class SpillerUI {
 	
 	public void effekt(int effekt, int pos, String navn) {
 		if(effekt > 0 ) {
-			printer("Du har landet på en stige og går opp " + effekt);
+			printer("Du har landet på en stige og går " + effekt + " plasser opp");
 			printBrett(pos, navn);
 		}else if(effekt < 0) {
-			printer("Du har landet på en slange og går ned " + effekt);
+			printer("Du har landet på en slange og går " + Math.abs(effekt) + " plasser ned");
 			printBrett(pos,navn);
 		}
 		
