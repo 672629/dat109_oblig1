@@ -24,15 +24,16 @@ public class Slangespill {
 	}
 
 	public int skrivSpillere() {
-		int brukerInput = 0;
+		String brukerInput = "";
+		String tallRegex = "^[2-4]$";
 		Scanner scanner = new Scanner(System.in);
-		while (brukerInput != 2 && brukerInput != 3 && brukerInput != 4) {
+		while (!brukerInput.matches(tallRegex)) {
 
 			System.out.print("Skriv inn hvor mange spillere (mellom 2 og 4): ");
-			brukerInput = scanner.nextInt();
-			scanner.nextLine();
+			brukerInput = scanner.nextLine();
 		}
-		return brukerInput;
+		int brukerTall = Integer.parseInt(brukerInput);
+		return brukerTall;
 	}
 
 	

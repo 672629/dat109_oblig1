@@ -16,13 +16,6 @@ public class Brett {
 	public int ruteEffekt(int pos) {
 
 		int effekt = ruter.get(pos).getEffekt();
-
-		if (effekt < 0) {
-			// print slangeEffekt
-		}
-		if (effekt > 0) {
-			// print stigeeffekt
-		}
 		pos = pos + effekt;
 		return pos;
 	}
