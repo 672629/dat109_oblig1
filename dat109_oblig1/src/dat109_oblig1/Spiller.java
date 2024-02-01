@@ -25,7 +25,7 @@ public class Spiller {
 			return getPos();
 		}
 		
-		brikke.setPosisjon(sumPos);
+		updatePos(sumPos);
 		return sumPos;
 	}
 

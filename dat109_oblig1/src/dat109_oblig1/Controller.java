@@ -21,7 +21,6 @@ public class Controller {
 			do {
 				harFattSeks(spiller);
 
-				// button();
 				int terningVerdi = terning.trill();
 				spillerUI.terningVerdi(terningVerdi);
 				
@@ -53,19 +52,9 @@ public class Controller {
 			if (spillerTeller >= spillere.size()) {
 				spillerTeller = 0;
 			}
-
-		}
-
-	}
-
-	private void button() {
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
+
 
 	private void printAtNySpiller(Spiller spiller) {
 		spillerUI.nySpillerTur(spiller.getName());
