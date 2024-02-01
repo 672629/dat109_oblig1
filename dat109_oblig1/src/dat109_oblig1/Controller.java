@@ -99,13 +99,13 @@ public class Controller {
 	private boolean erOverHundre(Spiller spiller, int terningVerdi) {
 		int spillerpos = spiller.getPos();
 		int total = spillerpos + terningVerdi;
-		if(spillerpos >= 93) {
-			if(total > 99) {
-				spillerUI.overHundre(spillerpos + 1);
-				return true;
-			}
+		boolean erOverHundre = spiller.erOverHundre(total);
+		
+		if(erOverHundre) {
+			spillerUI.overHundre(spillerpos + 1);
+			return erOverHundre;
 		}
-		return false;
+		return erOverHundre;
 	}
 	
 	private boolean sjekkOgSettVunnet(Spiller spiller) {

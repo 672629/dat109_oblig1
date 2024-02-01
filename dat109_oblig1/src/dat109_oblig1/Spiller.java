@@ -57,7 +57,7 @@ public class Spiller {
 		return erFanget;
 	}
 
-	private boolean erOverHundre(int sumPos) {
+	public boolean erOverHundre(int sumPos) {
 		if (brikke.getPosisjon() >= 93) {
 			if (sumPos > 99) {
 				return true;
