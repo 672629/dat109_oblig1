@@ -8,19 +8,12 @@ public class Slangespill {
 	private Brett brett;
 	private List<Spiller> spillere = new ArrayList<>();
 	private Terning terning;
-	private int antallSpillere;
 	private Controller controller;
 	
 	public Slangespill() {
-		brett = new Brett();
-		terning = new Terning();
 		controller = new Controller();
-		antallSpillere = skrivSpillere();
-		String[] spillernavn = getSpillerNames();
-		for(int i = 0; i < antallSpillere; i++) {
-			spillere.add(new Spiller(spillernavn[i]));
-		}
-		controller.start(brett, terning, spillere);
+		this.brett = new Brett();
+		this.terning = new Terning();
 	}
 
 	public int skrivSpillere() {
@@ -37,12 +30,12 @@ public class Slangespill {
 	}
 
 	
-	private String[] getSpillerNames() {
+	private String[] getSpillerNames(int antallSpillere) {
 		String brukerInput = "No name";
 		String[] alleSpillerNavn = new String[antallSpillere];
 		int teller = 0;
 		Scanner scanner = new Scanner(System.in);
-		while (this.antallSpillere > teller) {
+		while (antallSpillere > teller) {
 			System.out.print("Skriv inn spillernavn: ");
 			brukerInput = scanner.nextLine();
 			alleSpillerNavn[teller] = brukerInput;
@@ -50,5 +43,14 @@ public class Slangespill {
 		}
 		scanner.close();
 		return alleSpillerNavn;
+	}
+	
+	public void initialiser() {
+		int antallSpillere = skrivSpillere();
+		String[] spillernavn = getSpillerNames(antallSpillere);
+		for(int i = 0; i < antallSpillere; i++) {
+			spillere.add(new Spiller(spillernavn[i]));
+		}
+		controller.start(brett,terning,spillere);
 	}
 }

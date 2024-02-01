@@ -18,13 +18,13 @@ class ControllerTest {
 	@Test
 	void startTest() {
 		Controller controller = new Controller();
-		List<Spiller> spillere = new ArrayList<>(Arrays.asList(new Spiller("navn1"), new Spiller("navn2")));
-		Terning terning = new Terning();
 		Brett brett = new Brett();
+		Terning terning = new Terning();
+		List<Spiller> spillere = new ArrayList<>(Arrays.asList(new Spiller("navn1"), new Spiller("navn2")));
 		Spiller spiller1 = spillere.get(0);
 		Spiller spiller2 = spillere.get(1);
 		
-		controller.start(brett, terning, spillere);
+		controller.start(brett, terning,spillere);
 		assertTrue(spiller1.getHarVunnet() || spiller2.getHarVunnet());
 		
 	}

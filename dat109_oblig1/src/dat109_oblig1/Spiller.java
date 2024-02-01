@@ -2,7 +2,7 @@ package dat109_oblig1;
 
 public class Spiller {
 
-	public String name;
+	private String name;
 	private int tellerSeks;
 	private Brikke brikke;
 	private boolean tripleSix;

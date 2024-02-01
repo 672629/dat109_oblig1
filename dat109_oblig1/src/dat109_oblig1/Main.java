@@ -5,6 +5,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		Slangespill slangeSpill = new Slangespill();
+		slangeSpill.initialiser();
 	}
 
 }

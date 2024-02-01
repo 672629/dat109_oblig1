@@ -5,13 +5,15 @@ import java.util.Scanner;
 
 public class Controller {
 
-	private SpillerUI spillerUI;
+	private SpillUI spillUI;
+	private ControllerLogikk logikk;
 
 	public Controller() {
-		this.spillerUI = new SpillerUI();
+		this.spillUI = new SpillUI();
+		this.logikk = new ControllerLogikk();
 	}
 
-	public void start(Brett brett, Terning terning, List<Spiller> spillere) {
+	public void start(Brett brett, Terning terning ,List<Spiller> spillere) {
 		int spillerTeller = 0;
 		Spiller spiller = spillere.get(spillerTeller);
 
@@ -22,7 +24,7 @@ public class Controller {
 				harFattSeks(spiller);
 
 				int terningVerdi = terning.trill();
-				spillerUI.terningVerdi(terningVerdi);
+				spillUI.terningVerdi(terningVerdi);
 				
 
 				if (erFanget(spiller, terningVerdi) || erOverHundre(spiller, terningVerdi)) {
@@ -37,14 +39,14 @@ public class Controller {
 
 				oppdaterPosOgPrintHvisEffekt(spiller, brett, pos);
 				
-				if(sjekkOgSettVunnet(spiller)) {
+				if(logikk.sjekkOgSettVunnet(spiller)) {
 					break;
 				}
 
 			} while (spiller.getTellerSeks() > 0 && spiller.getTellerSeks() < 3);
 
 			if (spiller.getHarVunnet()) {
-				spillerUI.vunnet(spiller.getName());
+				spillUI.vunnet(spiller.getName());
 				break;
 			}
 
@@ -57,62 +59,56 @@ public class Controller {
 
 
 	private void printAtNySpiller(Spiller spiller) {
-		spillerUI.nySpillerTur(spiller.getName());
+		spillUI.nySpillerTur(spiller.getName());
 		printBrettFraUI(spiller);
 	}
 
 	private void printBrettFraUI(Spiller spiller) {
-		spillerUI.printBrett(spiller.getPos() + 1, spiller.getName());
+		spillUI.printBrett(spiller.getPos() + 1, spiller.getName());
 
 	}
+
 
 	private void harFattSeks(Spiller spiller) {
-		if (spiller.getTellerSeks() > 0) {
-			spillerUI.skrivFikkSeks();
+		if (logikk.harFattSeks(spiller)) {
+			spillUI.skrivFikkSeks();
 		}
 	}
-
+	
+	
 	private boolean erFanget(Spiller spiller, int terningVerdi) {
-		if (spiller.getTripleSix()) {
-			if (terningVerdi != 6) {
-				spillerUI.fangetMelding();
-				return true;
-			}
-			spillerUI.ikkeFanget();
+		int fangetTall = logikk.erFanget(spiller, terningVerdi);
+		if(fangetTall == 0) {
+			spillUI.ikkeFanget();
+		}else if(fangetTall > 1) {
+			spillUI.fangetMelding();
+			return true;
 		}
 		return false;
 	}
 
 	private void oppdaterPosOgPrintHvisEffekt(Spiller spiller, Brett brett, int pos) {
 		spiller.updatePos(brett.ruteEffekt(pos));
-		spillerUI.effekt(brett.getEffekt(pos), spiller.getPos() + 1, spiller.getName());
+		spillUI.effekt(brett.getEffekt(pos), spiller.getPos() + 1, spiller.getName());
 	}
 
-
+	
 	private void printHvisTrippelSeks(Spiller spiller) {
 		if (spiller.getTripleSix()) {
-			spillerUI.trippelSeks();
-			spillerUI.fangetMelding();
+			spillUI.trippelSeks();
+			spillUI.fangetMelding();
 		}
 	}
 	
 	private boolean erOverHundre(Spiller spiller, int terningVerdi) {
+		boolean erOverHundre = logikk.erOverHundre(spiller, terningVerdi);
 		int spillerpos = spiller.getPos();
-		int total = spillerpos + terningVerdi;
-		boolean erOverHundre = spiller.erOverHundre(total);
 		
 		if(erOverHundre) {
-			spillerUI.overHundre(spillerpos + 1);
+			spillUI.overHundre(spillerpos + 1);
 			return erOverHundre;
 		}
 		return erOverHundre;
-	}
-	
-	private boolean sjekkOgSettVunnet(Spiller spiller) {
-		if(spiller.getPos() == 99) {
-			spiller.setHarVunnet();
-		}
-		return spiller.getHarVunnet();
 	}
 
 }

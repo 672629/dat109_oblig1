@@ -1,6 +1,6 @@
 package dat109_oblig1;
 
-public class SpillerUI {
+public class SpillUI {
 	
 	
 	public void skrivFikkSeks() {
